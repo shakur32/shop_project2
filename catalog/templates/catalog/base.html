@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Shop{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; line-height: 1.6; }
+        nav { background: #333; color: white; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        nav a { color: white; text-decoration: none; margin-right: 15px; }
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 0.9em; }
+        footer { margin-top: 50px; text-align: center; color: #666; }
+    </style>
+</head>
+<body>
+    <nav>
+    <a href="{% url 'catalog:home' %}"><b>🏠 Главная</b></a>
+    <a href="{% url 'catalog:cart_detail' %}" style="float: right;">🛒 Корзина</a>
+    <span>ENU College Django Shop</span>
+</nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer><hr><p>&copy; 2026 My Shop Project</p></footer>
+</body>
+</html>

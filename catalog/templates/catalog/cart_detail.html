@@ -1,0 +1,39 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h1>Ваша корзина</h1>
+
+{% if cart %}
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #f4f4f4; text-align: left;">
+                <th style="padding: 10px;">Товар</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Итого</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }} тг</td>
+                    <td>{{ item.total_price }} тг</td>
+                    <td>
+                        <a href="{% url 'catalog:cart_remove' item.product.id %}" style="color: red; text-decoration: none;">❌ Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px; text-align: right;">
+        <h3>Общая сумма: {{ cart.get_total_price }} тг</h3>
+        <button style="background: #007bff; color: white; padding: 15px 30px; border: none; cursor: pointer; border-radius: 5px;">Оформить заказ</button>
+    </div>
+{% else %}
+    <p>Ваша корзина пуста. <a href="{% url 'catalog:home' %}">Вернуться за покупками</a></p>
+{% endif %}
+{% endblock %}

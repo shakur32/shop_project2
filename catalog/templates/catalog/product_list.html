@@ -1,0 +1,28 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+
+<form method="get" style="margin-bottom: 20px;">
+    <input name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+    <select name="sort">
+        <option value="">Сортировка</option>
+        <option value="price_asc">Дешевле</option>
+        <option value="price_desc">Дороже</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+    {% for p in page_obj %}
+        <div class="product-card">
+            <h3>{{ p.name }}</h3>
+            <p><b>{{ p.price }} тг</b></p>
+            <p>{% if p.stock > 0 %} ✅ В наличии {% else %} ❌ Нет {% endif %}</p>
+            <a href="{% url 'catalog:product_detail' p.slug %}">Подробнее</a>
+        </div>
+    {% empty %}
+        <p>Товары не найдены.</p>
+    {% endfor %}
+</div>
+{% endblock %}
