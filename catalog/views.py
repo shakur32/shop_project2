@@ -4,11 +4,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.views import View
-from .models import Category, Product, Publication
-from .forms import PublicationForm
+from .models import Product, Publication
 
 def home(request):
-    products = Product.objects.filter(is_active=True).order_by('-id')[:4]
+    products = Product.objects.filter(is_active=True).order_by('-id')
     return render(request, "catalog/home.html", {"products": products})
 
 def product_detail(request, slug):
@@ -27,12 +26,10 @@ class PublicationListView(ListView):
 
 class PublicationDetailView(DetailView):
     model = Publication
-    template_name = 'catalog/publication_detail.html'
 
 class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Publication
-    form_class = PublicationForm
-    template_name = 'catalog/publication_form.html'
+    fields = ['title', 'short_description', 'full_text', 'image', 'status']
     permission_required = 'catalog.add_publication'
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -40,14 +37,12 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class PublicationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Publication
-    form_class = PublicationForm
-    template_name = 'catalog/publication_form.html'
+    fields = ['title', 'short_description', 'full_text', 'image', 'status']
     def test_func(self):
         return self.request.user == self.get_object().author or self.request.user.is_staff
 
 class PublicationDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Publication
-    template_name = 'catalog/publication_confirm_delete.html'
     success_url = reverse_lazy('catalog:publication_list')
     permission_required = 'catalog.delete_publication'
 

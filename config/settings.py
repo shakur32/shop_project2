@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-shakur-project-key'
+SECRET_KEY = 'django-insecure-shakur-32-key'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -13,7 +13,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog', # Твое приложение
+    'catalog',
 ]
 
 MIDDLEWARE = [
@@ -48,21 +48,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop_db',
         'USER': 'postgres',
-        'PASSWORD': '123', # ТУТ ТОЛЬКО АНГЛИЙСКИЕ БУКВЫ
+        'PASSWORD': '123',  # ТОЛЬКО АНГЛИЙСКИЕ БУКВЫ И ЦИФРЫ
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
 
-LANGUAGE_CODE = 'ru-ru'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

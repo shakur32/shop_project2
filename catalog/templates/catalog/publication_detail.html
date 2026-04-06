@@ -1,33 +1,18 @@
 {% extends "catalog/base.html" %}
-
 {% block content %}
-<div style="display: flex; gap: 40px; margin-top: 20px;">
+<div style="display: flex; gap: 30px;">
     <div style="flex: 1;">
-        {% if product.images.all %}
-            {% for img in product.images.all %}
-                <img src="{{ img.image.url }}" style="width: 100%; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            {% endfor %}
-        {% else %}
-            <div style="width: 100%; height: 300px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
-                <span style="color: #999; font-size: 50px;">📦 Нет фото</span>
-            </div>
-        {% endif %}
+        {% for img in product.images.all %}
+            <img src="{{ img.image.url }}" style="width: 100%; margin-bottom: 10px; border-radius: 8px;">
+        {% empty %}
+            <div style="padding: 50px; background: #eee; text-align: center;">Нет фото</div>
+        {% endfor %}
     </div>
-
     <div style="flex: 1;">
         <h1>{{ product.name }}</h1>
-        <p style="color: #666; font-size: 1.1em;">Категория: {{ product.category.name }}</p>
-        <hr>
-        <h2 style="color: #28a745;">{{ product.price }} руб.</h2>
-        <p style="line-height: 1.6; margin: 20px 0;">{{ product.description }}</p>
-        
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid #007bff;">
-            <p>Остаток на складе: <strong>{{ product.stock }} шт.</strong></p>
-            <button class="btn btn-success" style="width: 100%; padding: 15px; font-size: 1.2em; cursor: pointer;">Добавить в корзину</button>
-        </div>
-        
-        <br>
-        <a href="{% url 'catalog:home' %}" style="text-decoration: none; color: #007bff;">← Вернуться в каталог</a>
+        <p style="font-size: 1.5em; color: green;">{{ product.price }} руб.</p>
+        <p>{{ product.description }}</p>
+        <a href="{% url 'catalog:cart_detail' %}" class="btn" style="background: green; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Добавить в корзину</a>
     </div>
 </div>
 {% endblock %}
