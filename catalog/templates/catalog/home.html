@@ -1,27 +1,20 @@
 {% extends "catalog/base.html" %}
 
 {% block content %}
-    <h1>Категории товаров</h1>
-    <div style="display: flex; gap: 10px; margin-bottom: 30px;">
-        {% for cat in categories %}
-            <a href="{% url 'catalog:product_list_by_category' cat.slug %}" 
-               style="padding: 10px 20px; background: #eee; border-radius: 20px; text-decoration: none; color: #333;">
-               {{ cat.name }}
-            </a>
-        {% empty %}
-            <p>Категорий пока нет. Добавьте их в админке!</p>
-        {% endfor %}
-    </div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Наши товары</h1>
+    <a href="{% url 'catalog:publication_list' %}" class="btn btn-outline-danger">Читать наш блог 📝</a>
+</div>
 
-    <hr>
-    <h2>Новинки каталога</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
-        {% for p in products %}
-            <div class="product-card">
-                <h3>{{ p.name }}</h3>
-                <p><b>{{ p.price }} тг</b></p>
-                <a href="{% url 'catalog:product_detail' p.slug %}" style="color: blue;">Смотреть</a>
-            </div>
-        {% endfor %}
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+    {% for p in products %}
+    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center;">
+        <h3>{{ p.name }}</h3>
+        <p><b>{{ p.price }} руб.</b></p>
+        <a href="{% url 'catalog:product_detail' p.slug %}" class="btn btn-primary">Подробнее</a>
     </div>
+    {% empty %}
+    <p>Товаров нет.</p>
+    {% endfor %}
+</div>
 {% endblock %}

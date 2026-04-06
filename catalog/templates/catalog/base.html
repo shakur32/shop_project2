@@ -2,25 +2,36 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Shop{% endblock %}</title>
+    <title>ENU Shop</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; line-height: 1.6; }
-        nav { background: #333; color: white; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        body { font-family: sans-serif; margin: 0; background: #f8f9fa; }
+        nav { background: #212529; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: white; text-decoration: none; margin-right: 15px; }
-        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
-        .old-price { text-decoration: line-through; color: #888; font-size: 0.9em; }
-        footer { margin-top: 50px; text-align: center; color: #666; }
+        .container { width: 90%; max-width: 1200px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; min-height: 80vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .btn { padding: 10px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; border: none; display: inline-block; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-outline-danger { border: 1px solid #dc3545; color: #dc3545; background: transparent; }
+        .form-control { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
     </style>
 </head>
 <body>
     <nav>
-    <a href="{% url 'catalog:home' %}"><b>🏠 Главная</b></a>
-    <a href="{% url 'catalog:cart_detail' %}" style="float: right;">🛒 Корзина</a>
-    <span>ENU College Django Shop</span>
-</nav>
-    <main>
+        <div>
+            <a href="{% url 'catalog:home' %}"><b>🏠 Главная</b></a>
+            <a href="{% url 'catalog:publication_list' %}">📝 Блог</a>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <span>Привет, {{ user.username }}</span> | <a href="/accounts/logout/">Выход</a>
+            {% else %}
+                <a href="/accounts/login/">Вход</a>
+            {% endif %}
+            <a href="{% url 'catalog:cart_detail' %}" style="margin-left: 20px;">🛒 Корзина</a>
+        </div>
+    </nav>
+    <div class="container">
         {% block content %}{% endblock %}
-    </main>
-    <footer><hr><p>&copy; 2026 My Shop Project</p></footer>
+    </div>
 </body>
 </html>
