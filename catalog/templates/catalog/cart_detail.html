@@ -1,7 +1,30 @@
 {% extends "catalog/base.html" %}
 {% block content %}
-<div style="text-align: center; padding: 50px;">
-    <h1>🛒 Ваша корзина</h1>
-    <p>Пока здесь пусто. <a href="{% url 'catalog:home' %}">К покупкам!</a></p>
-</div>
+<h1>Ваша корзина</h1>
+<hr>
+{% if cart_items %}
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tr style="background: #eee;">
+            <th style="padding: 10px; text-align: left;">Товар</th>
+            <th>Кол-во</th>
+            <th>Цена</th>
+            <th>Итого</th>
+        </tr>
+        {% for item in cart_items %}
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px;">{{ item.product.name }}</td>
+            <td style="text-align: center;">{{ item.quantity }}</td>
+            <td style="text-align: center;">{{ item.product.price }} руб.</td>
+            <td style="text-align: center;">{{ item.total }} руб.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Общая сумма: <span style="color: green;">{{ total_price }} руб.</span></h3>
+    <div style="margin-top: 20px;">
+        <a href="{% url 'catalog:clear_cart' %}" style="color: red;">Очистить корзину</a>
+        <button class="btn btn-primary" style="margin-left: 20px;">Оформить заказ</button>
+    </div>
+{% else %}
+    <p>Корзина пуста. <a href="{% url 'catalog:home' %}">Перейти к покупкам</a></p>
+{% endif %}
 {% endblock %}

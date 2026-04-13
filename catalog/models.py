@@ -32,4 +32,19 @@ class Publication(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     likes = models.ManyToManyField(User, related_name='pub_likes', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    def get_absolute_url(self): return reverse('catalog:publication_detail', args=[str(self.id)])
+    def get_absolute_url(self): return reverse('catalog:publication_detail', args=[str(self.id)]) 
+    
+class Task(models.Model):
+    STATUS_CHOICES = [('new', 'New'), ('in_progress', 'In Progress'), ('done', 'Done')]
+    PRIORITY_CHOICES = [('low', 'Low'), ('medium', 'Medium'), ('high', 'High')]
+
+    title = models.CharField(max_length=255, db_index=True)
+    description = models.TextField(blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', db_index=True)
+    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+
+    def __str__(self):
+        return self.title
